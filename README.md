@@ -26,9 +26,22 @@ ln -s ~/git/agent-skills/skills ~/.claude/skills
 
 ## Synchronisation
 
+La branche `main` est protégée : pas de push direct, tout changement passe par une pull request.
+
 ```bash
 cd ~/git/agent-skills
+git switch -c update-skills
 git add -A
 git commit -m "chore: update skills"
-git push
+git push -u origin update-skills
+gh pr create --fill
+gh pr merge --squash --delete-branch   # bypass admin si aucune review disponible
+```
+
+Puis sur les autres machines :
+
+```bash
+cd ~/git/agent-skills
+git switch main
+git pull
 ```
